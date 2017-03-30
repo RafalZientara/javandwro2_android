@@ -5,27 +5,64 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
-    private View rootView;
     private float maxValue = 30;
+
+
+
+    @BindView(R.id.rootViewId)
+    View rootView;
+
+    @BindView(R.id.gyroscopeText)
+    TextView gyroscopeText;
+
+    @BindView(R.id.fingerprintText)
+    TextView fingerprintText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        rootView = findViewById(R.id.activity_main);
+        ButterKnife.bind(this);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        int color = ContextCompat.getColor(this, R.color.colorAccent);
+        //ContextCompat.getDrawable(this, R.drawable.picture)
+
+        //wpieramy nowe funkcjonalnosci
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Toast.makeText(this, "Ale masz super telefon! :D", Toast.LENGTH_SHORT).show();
+        }
+
+        checkGyroscope();
+    }
+
+    private void checkGyroscope() {
+        Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if(gyroscopeSensor != null)
+            gyroscopeText.setText("You have gyroscope! :D");
+        else
+            gyroscopeText.setText("You don't have gyroscope! :(");
+
     }
 
     @Override

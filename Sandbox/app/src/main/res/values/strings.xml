@@ -1,4 +1,8 @@
 <resources>
+
     <string name="app_name">Sandbox</string>
     <string name="hello">Hello World!</string>
+
+    <string name="unknown">Only in English</string>
+
 </resources>

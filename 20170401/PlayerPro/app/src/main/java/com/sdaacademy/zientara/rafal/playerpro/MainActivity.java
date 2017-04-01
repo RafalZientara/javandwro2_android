@@ -1,6 +1,7 @@
 package com.sdaacademy.zientara.rafal.playerpro;
 
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         dupstep = MediaPlayer.create(this, R.raw.bensound_dubstep);
 
         seekBarView.setMax(100);
+        volumeSeekBarView.setMax(100);
         pauseButtonView.setVisibility(View.INVISIBLE);
         seekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -50,6 +52,25 @@ public class MainActivity extends AppCompatActivity {
                 float currentProgress = progress / maxValue;
                 int durationMillis = dupstep.getDuration();
                 dupstep.seekTo((int) (durationMillis * currentProgress));
+            }
+        });
+
+        volumeSeekBarView.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int maxValue = 100;
+                float currentProgress = progress / (float)maxValue;
+                dupstep.setVolume(currentProgress, currentProgress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
     }
